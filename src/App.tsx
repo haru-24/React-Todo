@@ -1,10 +1,13 @@
 import React from "react";
-import { TodoPage } from "./components/pages/TodoPage";
+import { TodoPage } from "./components/pages/TodoPage/TodoPage";
+import styles from "./App.module.scss";
 
 function App() {
   return (
     <>
-      <TodoPage />
+      <div className={styles.app}>
+        <TodoPage />
+      </div>
     </>
   );
 }

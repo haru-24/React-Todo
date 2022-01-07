@@ -1,4 +1,6 @@
+import { Button, TextField } from "@mui/material";
 import { ChangeEvent, memo, useEffect, useState, VFC } from "react";
+import styles from "./ToDoPage.module.scss";
 
 interface Todos {
   id: number;
@@ -25,10 +27,10 @@ export const TodoPage: VFC = memo(() => {
   const [todos, setTodos] = useState<Todos[]>([]);
   const [inputTodo, setInputTodo] = useState("");
 
-  //   初期値をセット　（何度もレンダリングしないようにuseEffectを使用）
+  //   初期値をセット（何度もレンダリングしないようにuseEffectを使用）
   useEffect(() => setTodos(defaultTodos), []);
 
-  //   1　todoの追加
+  // 1todoの追加
   // 1.1inputに入力した値を格納する
   const onChangeInputValue = (e: ChangeEvent<HTMLInputElement>) => {
     setInputTodo(e.target.value);
@@ -46,20 +48,32 @@ export const TodoPage: VFC = memo(() => {
     }
   };
 
+  //  2 削除機能
+  // 2.1 idでフィルターをかけて対象のTodoを削除
+
   return (
-    <>
+    <div>
       <h1>Todo App</h1>
-      <input type="text" onChange={onChangeInputValue} value={inputTodo} />
-      <button onClick={onClickTodoAdd}>追加</button>
+      <TextField
+        id="standard-search"
+        label="タスクを入力"
+        type="search"
+        variant="standard"
+        onChange={onChangeInputValue}
+        value={inputTodo}
+      />
+      <Button variant="outlined" onClick={onClickTodoAdd}>
+        追加
+      </Button>
 
       {todos.map((todo) => (
         <div key={todo.id}>
-          <li>{todo.task}</li>
-          <button>完了</button>
-          <button>更新</button>
-          <button>削除</button>
+          <li className={styles.list}>{todo.task}</li>
+          <Button variant="outlined">完了</Button>
+          <Button variant="outlined">更新</Button>
+          <Button variant="outlined">削除</Button>
         </div>
       ))}
-    </>
+    </div>
   );
 });
