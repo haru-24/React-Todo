@@ -1,28 +1,11 @@
-import { Button, TextField } from "@mui/material";
 import { ChangeEvent, memo, useEffect, useState, VFC } from "react";
 import styles from "./ToDoPage.module.scss";
-
-interface Todos {
-  id: number;
-  task: string;
-  isCompleted: boolean;
-}
+import { InputTodo } from "../../molecules/InputTodo/InputTodo";
+import { Todos } from "../../../Types/todo";
+import { defaultTodos } from "../../../data/todoData";
+import { TodoTask } from "../../molecules/TodoTask/TodoTask";
 
 export const TodoPage: VFC = memo(() => {
-  // 初期データ
-  const defaultTodos: Todos[] = [
-    {
-      id: 1,
-      task: "ご飯を作る",
-      isCompleted: false,
-    },
-    {
-      id: 2,
-      task: "掃除をする",
-      isCompleted: false,
-    },
-  ];
-
   // State
   const [todos, setTodos] = useState<Todos[]>([]);
   const [inputTodo, setInputTodo] = useState("");
@@ -68,39 +51,34 @@ export const TodoPage: VFC = memo(() => {
     setTodos(changeCompltedTodo);
   };
 
-  // 4 編集機能
-  // 4.1ボタンクリックでINPUTを表示
+  // 3.2 完了済みを全て消す
+  const onClickAllDelete = () => {
+    if (window.confirm("完了済みを全て削除しますか？")) {
+      const completedAllDelete = todos.filter(
+        (todo) => todo.isCompleted !== true
+      );
+      setTodos(completedAllDelete);
+    }
+  };
 
   return (
     <div>
       <h1 className={styles.title}>React Todo App</h1>
-      <div className={styles.inputWrapper}>
-        <TextField
-          id="standard-search"
-          label="タスクを入力"
-          type="search"
-          variant="standard"
-          onChange={onChangeInputValue}
-          value={inputTodo}
-        />
-        <Button variant="outlined" onClick={onClickTodoAdd}>
-          追加
-        </Button>
-      </div>
+      <InputTodo
+        onChangeInputValue={onChangeInputValue}
+        onClickAllDelete={onClickAllDelete}
+        onClickTodoAdd={onClickTodoAdd}
+        inputTodo={inputTodo}
+      />
+
       <div className={styles.todoWrapper}>
         {todos.map((todo) => (
-          <div key={todo.id}>
-            <span className={todo.isCompleted ? styles.completed : ""}>
-              {todo.task}
-            </span>
-            <Button variant="outlined" onClick={() => onClickComplete(todo.id)}>
-              完了
-            </Button>
-            <Button variant="outlined">更新</Button>
-            <Button variant="outlined" onClick={() => onClickDelete(todo.id)}>
-              削除
-            </Button>
-          </div>
+          <TodoTask
+            key={todo.id}
+            todo={todo}
+            onClickComplete={onClickComplete}
+            onClickDelete={onClickDelete}
+          />
         ))}
       </div>
     </div>
