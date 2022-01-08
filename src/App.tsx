@@ -4,11 +4,9 @@ import styles from "./App.module.scss";
 
 function App() {
   return (
-    <>
-      <div className={styles.app}>
-        <TodoPage />
-      </div>
-    </>
+    <div className={styles.app}>
+      <TodoPage />
+    </div>
   );
 }
 

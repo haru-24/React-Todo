@@ -51,29 +51,58 @@ export const TodoPage: VFC = memo(() => {
   //  2 削除機能
   // 2.1 idでフィルターをかけて対象のTodoを削除
 
+  const onClickDelete = (id: number) => {
+    const delteTodo = todos.filter((todo) => todo.id !== id);
+    setTodos(delteTodo);
+  };
+
+  // 3 完了機能
+  // 3.1 フィルターで抽出
+  const onClickComplete = (id: number) => {
+    const changeCompltedTodo = todos.map((todo) => {
+      if (todo.id === id) {
+        todo.isCompleted = !todo.isCompleted;
+      }
+      return todo;
+    });
+    setTodos(changeCompltedTodo);
+  };
+
+  // 4 編集機能
+  // 4.1ボタンクリックでINPUTを表示
+
   return (
     <div>
-      <h1>Todo App</h1>
-      <TextField
-        id="standard-search"
-        label="タスクを入力"
-        type="search"
-        variant="standard"
-        onChange={onChangeInputValue}
-        value={inputTodo}
-      />
-      <Button variant="outlined" onClick={onClickTodoAdd}>
-        追加
-      </Button>
-
-      {todos.map((todo) => (
-        <div key={todo.id}>
-          <li className={styles.list}>{todo.task}</li>
-          <Button variant="outlined">完了</Button>
-          <Button variant="outlined">更新</Button>
-          <Button variant="outlined">削除</Button>
-        </div>
-      ))}
+      <h1 className={styles.title}>React Todo App</h1>
+      <div className={styles.inputWrapper}>
+        <TextField
+          id="standard-search"
+          label="タスクを入力"
+          type="search"
+          variant="standard"
+          onChange={onChangeInputValue}
+          value={inputTodo}
+        />
+        <Button variant="outlined" onClick={onClickTodoAdd}>
+          追加
+        </Button>
+      </div>
+      <div className={styles.todoWrapper}>
+        {todos.map((todo) => (
+          <div key={todo.id}>
+            <span className={todo.isCompleted ? styles.completed : ""}>
+              {todo.task}
+            </span>
+            <Button variant="outlined" onClick={() => onClickComplete(todo.id)}>
+              完了
+            </Button>
+            <Button variant="outlined">更新</Button>
+            <Button variant="outlined" onClick={() => onClickDelete(todo.id)}>
+              削除
+            </Button>
+          </div>
+        ))}
+      </div>
     </div>
   );
 });

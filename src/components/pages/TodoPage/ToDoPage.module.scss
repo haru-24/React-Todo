@@ -1,3 +1,35 @@
-.list {
-  list-style-type: none;
+.title {
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+.inputWrapper {
+  margin-top: 40px;
+  margin-bottom: 40px;
+  input {
+    height: 20px;
+    width: 300px;
+  }
+  button {
+    margin-left: 20px;
+  }
+}
+
+.todoWrapper {
+  width: 600px;
+
+  margin: 0 auto;
+
+  div {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+  }
+  span {
+    font-size: large;
+    font-weight: bold;
+    margin-right: auto;
+  }
+  .completed {
+    text-decoration: line-through 4px solid;
+  }
 }
